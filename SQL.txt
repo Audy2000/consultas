@@ -1,0 +1,35 @@
+-- ====================== REPASOS DE SQL =========
+-- ================== tabla relacionada ==================
+create table Emp(
+	Id int primary key identity,
+	Name nvarchar(50),
+	DepId int
+	foreign key (DepId) references Dept(Id)
+);
+
+-- ================== CURSOR ==================
+-- declara las variables
+declare @idCliente int;
+declare @nombre nvarchar(50);
+declare @fechaRegistro date;
+
+-- se declara el cursor
+declare mi_cursor cursor for
+select IdCliente,Nombre,FechaRegistro 
+from(
+	select IdCliente,Nombre,FechaRegistro from ClientesNuevos
+	union all
+	select IdCliente,Nombre,FechaRegistro from ClientesAntiguos
+)as tabla;
+
+open mi_cursor;
+fetch next from mi_cursor into @idCliente, @nombre, @fechaRegistro
+while @@FETCH_STATUS = 0
+begin
+	 PRINT 'ID: ' + CAST(@idCliente AS NVARCHAR) + ', Nombre: ' + @nombre + ', Fecha Registro: ' + CAST(@fechaRegistro AS NVARCHAR);
+-- Leer la siguiente fila
+    FETCH NEXT FROM mi_cursor INTO @IdCliente, @Nombre, @FechaRegistro;
+end
+close mi_cursor;
+DEALLOCATE mi_cursor;
+
