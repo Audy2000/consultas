@@ -1,5 +1,5 @@
 -- ====================== REPASOS DE SQL =========
--- ================== tabla relacionada ==================
+-- ================== crear tabla relacionada ==================
 create table Emp(
 	Id int primary key identity,
 	Name nvarchar(50),
@@ -7,7 +7,7 @@ create table Emp(
 	foreign key (DepId) references Dept(Id)
 );
 
--- ================== CURSOR ==================
+-- ================== usar CURSORES ==================
 -- declara las variables
 declare @idCliente int;
 declare @nombre nvarchar(50);

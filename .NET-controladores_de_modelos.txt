@@ -1,0 +1,15 @@
+=== GENERAR CONTROLADORES A PARTIR DE LOS MODELOS ======
+Nota: Estas ejecuciones se las puede hacer desde la terminal para usar dotnet
+
+1. Instalar todas las herramientas con que se genera el modelo
+
+2. Se Instala la siguiente herramienta (desde la terminal para desarrolladores de vs)
+dotnet tool install --global dotnet-aspnet-codegenerator
+dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design
+Microsoft.EntityFrameworkCore.SqlServer
+
+3. Se ejecuta el siguiente comando
+(para apis)
+dotnet-aspnet-codegenerator controller -name ProductosController -m Producto -dc MiBasedatosContext -api -outDir Controllers
+(para controller y vistas)
+dotnet aspnet-codegenerator controller -name EmpleadosController -m Empleado -dc MiDbContext --relativeFolderPath Controllers --useDefaultLayout --referenceScriptLibraries

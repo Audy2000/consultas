@@ -1,0 +1,42 @@
+1. Tener el procedimiento almacenado en la DB
+CREATE PROCEDURE ObtenerEmpleados
+AS
+BEGIN
+    SELECT * FROM Empleados;
+END
+
+2. Llamar al procedimiento almacenado en tu contexto: Puedes utilizar FromSqlRaw o ExecuteSqlRaw dependiendo de si esperas un resultado o no.
+public class MiDbContext : DbContext
+{
+    public MiDbContext(DbContextOptions<MiDbContext> options) : base(options) { }
+
+    public DbSet<Empleado> Empleados { get; set; }
+
+    public async Task<List<Empleado>> ObtenerEmpleadosAsync()
+    {
+        return await Empleados.FromSqlRaw("EXEC ObtenerEmpleados").ToListAsync();
+    }
+}
+
+3- Usar el contexto en tu controlador: Llama al método en tu controlador.
+public class EmpleadosController : Controller
+{
+    private readonly MiDbContext _context;
+
+    public EmpleadosController(MiDbContext context)
+    {
+        _context = context;
+    }
+
+    public async Task<IActionResult> Index()
+    {
+        var empleados = await _context.ObtenerEmpleadosAsync();
+        return View(empleados);
+    }
+}
+
+4- Pasar parametros al procedimiento
+public async Task<List<Empleado>> ObtenerEmpleadosPorDepartamentoAsync(int departamentoId)
+{
+    return await Empleados.FromSqlRaw("EXEC ObtenerEmpleadosPorDepartamento @DepartamentoId = {0}", departamentoId).ToListAsync();
+}

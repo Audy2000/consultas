@@ -1,0 +1,47 @@
+======= CREAR MODELOS DE LA DB - DATABASE FIRST ======
+_____________________________________________________________
+1. Se instalan los paquetes
+-------------------------------------------------------------
+Microsoft.EntityFrameworkCore.Tools
+Pomelo.EntityFrameworkCore.MySql (para mysql)
+Microsoft.EntityFrameworkCore.SqlServer (para sql server)
+Microsoft.EntityFrameworkCore.Design
+
+_____________________________________________________________
+2. Se pone el comando siguiente para generar los modelos
+-------------------------------------------------------------
+(para mysql)
+Scaffold-DBContext "Server=localhost;Port=3306;Database=aluve_universidad;Uid=eli;Pwd=eli;SslMode=None;ConnectionTimeout=0" Pomelo.EntityFrameworkCore.MySql -OutputDir Models
+
+(para sql server)
+Scaffold-DBContext "Server=(localdb)\\MSSQLLocalDB;Database=TuBaseDeDatos;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+Server=(localdb)\\MSSQLLocalDB;Database=TuBaseDeDatos;Trusted_Connection=True;
+Server=NombreDelServidor;Database=TuBaseDeDatos;User Id=TuUsuario;Password=TuContraseña;
+
+_____________________________________________________________
+3. Se coloca la cadena de conexión en el appsettings.json
+-------------------------------------------------------------
+"ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=mi_basedatos;User=root;Password=tu_contraseña;"
+  }
+_____________________________________________________________
+4. Se configura en el program la inyección de dependencias
+-------------------------------------------------------------
+// ----- Configurar EF Core con MySQL -----
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<MiBasedatosContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+// ------ configurar EF Cora para sqlServer -------
+services.AddDbContext<MiDbContext>(options =>
+    options.UseSqlServer(Configuration.GetConnectionString("MiConexion")));
+
+_____________________________________________________________
+5. Se Inyecta el contexto en los controladores
+-------------------------------------------------------------
+private readonly MiBasedatosContext _context;
+
+        public ProductosController(MiBasedatosContext context)
+        {
+            _context = context;
+        }
