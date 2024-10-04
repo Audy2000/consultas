@@ -1,0 +1,4 @@
+CREATE VIEW NombreDeLaVista AS
+SELECT columnas
+FROM NombreDeLaTabla
+WHERE condiciones;

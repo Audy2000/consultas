@@ -1,0 +1,16 @@
+crear procedimientos almacenados
+
+CREATE PROCEDURE InsertarProducto
+    @Nombre NVARCHAR(100),
+    @Precio DECIMAL(10, 2),
+    @CategoriaID INT
+AS
+BEGIN
+    INSERT INTO Productos (Nombre, Precio, CategoriaID)
+    VALUES (@Nombre, @Precio, @CategoriaID);
+END;
+
+EXEC InsertarProducto 
+    @Nombre = 'Camiseta', 
+    @Precio = 19.99, 
+    @CategoriaID = 1;
