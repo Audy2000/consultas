@@ -1,0 +1,5 @@
+- crear proyecto mvc
+dotnet new mvc -n MiProyectoMvc
+
+- proyecto api
+dotnet new webapi -n MiProyectoApi

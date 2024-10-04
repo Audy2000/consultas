@@ -1,0 +1,79 @@
+Cuando ya se tiene los modelos, para crear los controladores manualmente
+Ejemplo de controlador
+
+private readonly PersonasContext _context;
+
+public ResMesaController(PersonasContext context)
+{
+    this._context = context;
+}
+
+public async  Task<IActionResult> Index()
+{
+    var listado = await this._context.ResMesas.ToListAsync();
+    return View(listado);
+}
+
+public IActionResult create()
+{
+    return View();
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Create(ResMesa mesa)
+{
+    if (ModelState.IsValid)
+    {
+        _context.Add(mesa);
+        await _context.SaveChangesAsync();
+        return RedirectToAction("Index");
+    }
+    return View(mesa);
+}
+
+public async Task<IActionResult> Edit(int? id)
+{
+    var mesa = await _context.ResMesas.FindAsync(id);
+    if (mesa==null)
+    {
+        return NotFound();
+    }
+    return View(mesa);
+}
+
+[HttpPost]
+public async Task<IActionResult> Edit(int id, ResMesa mesa)
+{
+    if (ModelState.IsValid)
+    {
+        _context.Update(mesa);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+    return View(mesa);
+}
+
+public async Task<IActionResult> Delete(int? id)
+{
+    var mesa = await _context.ResMesas.FindAsync(id);
+    if (mesa == null)
+    {
+        return NotFound();
+    }
+    return View(mesa);
+}
+
+[HttpPost, ActionName("Delete")]
+public async Task<IActionResult> Delete(int id)
+{
+    var mesa = await _context.ResMesas.FindAsync(id);
+
+    if (mesa!=null)
+    {
+        _context.ResMesas.Remove(mesa);
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(Index));
+    }
+    return View();
+}

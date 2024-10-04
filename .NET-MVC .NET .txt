@@ -15,7 +15,7 @@ Scaffold-DBContext "Server=localhost;Port=3306;Database=aluve_universidad;Uid=el
 
 (para sql server)
 Scaffold-DBContext "Server=(localdb)\\MSSQLLocalDB;Database=TuBaseDeDatos;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
-Server=(localdb)\\MSSQLLocalDB;Database=TuBaseDeDatos;Trusted_Connection=True;
+Server=(localdb)\MSSQLLocalDB;Database=TuBaseDeDatos;Trusted_Connection=True;
 Server=NombreDelServidor;Database=TuBaseDeDatos;User Id=TuUsuario;Password=TuContraseña;
 
 _____________________________________________________________
@@ -33,8 +33,12 @@ builder.Services.AddDbContext<MiBasedatosContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // ------ configurar EF Cora para sqlServer -------
-services.AddDbContext<MiDbContext>(options =>
-    options.UseSqlServer(Configuration.GetConnectionString("MiConexion")));
+builder.Services.AddDbContext<MiCrudAppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Configurar la cultura
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
 
 _____________________________________________________________
 5. Se Inyecta el contexto en los controladores
