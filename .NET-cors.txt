@@ -1,0 +1,21 @@
+Se configuran las siguientes opciones.
+1. Se agrega al appsettings.json la linea de origenes
+Nota: Si se quiere agregar otro origen, se da una ',' y se agrega
+ "origenesPermitidos": "http://localhost:4200"
+
+ 2. ANTES del builder.vuild(), colocar lo siguiente
+
+// Lectura del appsettings
+var origenesPermitidos = builder.Configuration.GetValue<string>("origenesPermitidos")!.Split(',');
+// Configuración cors
+builder.Services.AddCors(opciones =>
+{
+    opciones.AddDefaultPolicy(politica =>
+    {
+        politica.WithOrigins(origenesPermitidos).AllowAnyHeader().AllowAnyMethod();
+    });
+});
+
+3. habilitar cors bajo el app.UseHttpsRedirection();
+
+agregar-> app.UseCors();

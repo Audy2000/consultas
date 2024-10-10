@@ -14,7 +14,7 @@ _____________________________________________________________
 Scaffold-DBContext "Server=localhost;Port=3306;Database=aluve_universidad;Uid=eli;Pwd=eli;SslMode=None;ConnectionTimeout=0" Pomelo.EntityFrameworkCore.MySql -OutputDir Models
 
 (para sql server)
-Scaffold-DBContext "Server=(localdb)\\MSSQLLocalDB;Database=TuBaseDeDatos;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+Scaffold-DBContext "Server=(localdb)\MSSQLLocalDB;Database=TuBaseDeDatos;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
 Server=(localdb)\MSSQLLocalDB;Database=TuBaseDeDatos;Trusted_Connection=True;
 Server=NombreDelServidor;Database=TuBaseDeDatos;User Id=TuUsuario;Password=TuContraseña;
 
